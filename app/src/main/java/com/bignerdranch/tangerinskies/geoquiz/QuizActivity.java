@@ -1,5 +1,6 @@
 package com.bignerdranch.tangerinskies.geoquiz;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mPreviousButton;
     private TextView mQuestionTextView;
 
     private Question[] mQuestionBank = new Question[] {
@@ -92,6 +94,23 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 updateCurrentIndex();
                 updateQuestion();
+            }
+        });
+        //Reference Previous Button and set onClick Listiner
+        mPreviousButton = (Button) findViewById(R.id.previous_button);
+        mPreviousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                if (mCurrentIndex > 0){
+                    mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
+                    updateQuestion();
+                } else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "This is the first Question!";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
             }
         });
 
