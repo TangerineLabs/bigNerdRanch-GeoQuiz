@@ -29,6 +29,10 @@ public class QuizActivity extends AppCompatActivity {
 
     private int mCurrentIndex = 0;
 
+    private void updateCurrentIndex() {
+        mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+    }
+
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
@@ -52,7 +56,16 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        //Challenge #1 add a listiner for the question TextView
         mQuestionTextView =(TextView) findViewById(R.id.question_text_view);
+        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                updateCurrentIndex();
+                updateQuestion();
+            }
+
+        });
 
 
         //Reference TrueButton and set onClick listener
@@ -77,7 +90,7 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateCurrentIndex();
                 updateQuestion();
             }
         });
